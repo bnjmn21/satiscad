@@ -33,12 +33,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Install pnpm
         uses: pnpm/action-setup@v4.0.0
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
-          standalone: true
-      - name: pnpm i
-        uses: theoparis/pnpm-action@v2.1.1-alpha
-        with:
-          arguments: '["install"]'
+          node-version: 20
+          cache: 'pnpm'
       - name: Lint
         uses: theoparis/pnpm-action@v2.1.1-alpha
         with:
