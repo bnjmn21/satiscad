@@ -3,6 +3,10 @@
 
 ---
 
+## Run in the browser
+
+Run it here: https://bnjmn21.github.io/satiscad/
+
 ## Run locally
 
 ```sh
