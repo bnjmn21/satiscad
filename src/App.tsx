@@ -7,9 +7,6 @@ import {
 	useNodesState,
 	useEdgesState,
 	type OnConnect,
-	type ReactFlowInstance,
-	getViewportForBounds,
-	type ReactFlowState,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -93,17 +90,17 @@ function preventDefault(e: { preventDefault(): void }) {
 	e.preventDefault();
 }
 
-function fitViewWithSidebarInMind(
-	sidebarWidthPx: number,
-	rf: ReactFlowInstance,
-	rfs: ReactFlowState,
-) {
-	const { getNodesBounds, getNodes, setViewport } = rf;
-	const { width, height, minZoom, maxZoom } = rfs;
-	const nodes = getNodes();
-	const bounds = getNodesBounds(nodes);
-	const vp = getViewportForBounds(bounds, width, height, minZoom, maxZoom, 0.1);
-	setViewport(vp, {
-		duration: 250,
-	});
-}
+// function fitViewWithSidebarInMind(
+// 	sidebarWidthPx: number,
+// 	rf: ReactFlowInstance,
+// 	rfs: ReactFlowState,
+// ) {
+// 	const { getNodesBounds, getNodes, setViewport } = rf;
+// 	const { width, height, minZoom, maxZoom } = rfs;
+// 	const nodes = getNodes();
+// 	const bounds = getNodesBounds(nodes);
+// 	const vp = getViewportForBounds(bounds, width, height, minZoom, maxZoom, 0.1);
+// 	setViewport(vp, {
+// 		duration: 250,
+// 	});
+// }
