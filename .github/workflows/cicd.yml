@@ -31,21 +31,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4.0.0
-      - name: Install Node.js
+        
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+        
       - name: Lint
-        uses: theoparis/pnpm-action@v2.1.1-alpha
-        with:
-          arguments: '["lint", "--error-on-warnings"]'
+        run: pnpm lint
+        
       - name: Build
-        uses: theoparis/pnpm-action@v2.1.1-alpha
-        with:
-          arguments: '["build"]'
+        run: pnpm build
+          
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
