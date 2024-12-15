@@ -17,7 +17,7 @@ import Sidepanel from "./Sidepanel";
 import Controls from "./Controls";
 import Topbar from "./Topbar";
 import { LanguageCtx } from "./Config";
-import { i18n, localised, type Language } from "./lang";
+import { i18n, localisedString, type Language } from "./lang";
 
 export default function App() {
 	const [nodes, , onNodesChange] = useNodesState(initialNodes);
@@ -32,7 +32,7 @@ export default function App() {
 		(localStorage.getItem("lang") || "en-us") as Language,
 	);
 	const [factoryName, setFactoryName] = useState(
-		localised(language, i18n.unnamedFactory, []),
+		localisedString(language, i18n.unnamedFactory),
 	);
 	// biome-ignore lint/correctness/useExhaustiveDependencies(factoryName): only to update factory name when language changes.
 	useEffect(() => {
@@ -40,7 +40,7 @@ export default function App() {
 			factoryName === i18n.unnamedFactory.deDe ||
 			factoryName === i18n.unnamedFactory.enUs
 		) {
-			setFactoryName(localised(language, i18n.unnamedFactory, []));
+			setFactoryName(localisedString(language, i18n.unnamedFactory));
 		}
 		localStorage.setItem("lang", language);
 	}, [language]);

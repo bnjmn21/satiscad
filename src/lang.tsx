@@ -1,3 +1,4 @@
+import type React from "react";
 import { useCallback, useContext } from "react";
 import { LanguageCtx } from "./Config";
 
@@ -58,47 +59,67 @@ export const i18n = {
 	unnamedFactory: { enUs: "Unnamed Factory", deDe: "Unbenannte Fabrik" },
 };
 
-export type Translatable<T extends unknown[]> = {
-	enUs: Translation<T>;
-	deDe: Translation<T>;
-	params?: number;
+export type Translatable = {
+	enUs: Translation;
+	deDe: Translation;
 };
-export type Translation<T extends unknown[]> =
+export type TranslatableString = {
+	enUs: string;
+	deDe: string;
+}
+export type Translation =
 	| string
-	| ((...args: T) => string);
+	| (string | React.JSX.Element)[];
+export type Translated = (string | React.JSX.Element)[];
 
 export type Language = "en-us" | "de-de";
 
-export function localised<T extends unknown[]>(
+export function localised(
 	lang: Language,
-	translatable: Translatable<T>,
-	args: T,
-): string {
+	translatable: Translatable,
+): Translated {
 	switch (lang) {
 		case "en-us":
-			return interpolateTranslation(translatable.enUs, args);
+			return interpolateTranslation(translatable.enUs);
 		case "de-de":
-			return interpolateTranslation(translatable.deDe, args);
+			return interpolateTranslation(translatable.deDe);
 	}
 }
 
-function interpolateTranslation<T extends unknown[]>(
-	translation: Translation<T>,
-	args: T,
+export function localisedString(
+	lang: Language,
+	translatable: TranslatableString,
 ): string {
+	switch (lang) {
+		case "en-us":
+			return translatable.enUs;
+		case "de-de":
+			return translatable.deDe;
+	}
+}
+
+function interpolateTranslation(
+	translation: Translation,
+): Translated {
 	if (typeof translation === "string") {
-		return translation;
+		return [translation];
 	}
 
-	return translation(...args);
+	return translation;
 }
 
 export function useLang() {
 	const lang = useContext(LanguageCtx);
 	return {
 		localised: useCallback(
-			<T extends unknown[]>(translatable: Translatable<T>, ...args: T) => {
-				return localised(lang, translatable, args);
+			(translatable: Translatable) => {
+				return localised(lang, translatable);
+			},
+			[lang],
+		),
+		localisedString: useCallback(
+			(translatable: TranslatableString) => {
+				return localisedString(lang, translatable)
 			},
 			[lang],
 		),
